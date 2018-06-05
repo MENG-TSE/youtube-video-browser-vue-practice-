@@ -1,11 +1,12 @@
 <template>
-<ul class="list-group">
+<ul class="list-group col-md-4">
 <VideoListItem 
     v-for="singleVideo in videos"
     :video="singleVideo"
     :key="singleVideo.etag"
+    @videoSelect = "onVideoSelect"
 >
-
+<!-- onVideoSelect為下面的methods -->
 </VideoListItem>
 </ul>
     
@@ -19,7 +20,12 @@ export default {
     components:{
         VideoListItem
     },
-    props: ['videos']
+    props: ['videos'],
+    methods:{
+        onVideoSelect(video){
+            this.$emit('videoSelect',video);
+        }
+    }
 
 }
 </script>

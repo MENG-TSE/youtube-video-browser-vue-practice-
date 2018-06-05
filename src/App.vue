@@ -1,9 +1,12 @@
 <template>
     <div class="container">
         <SearchBar @termChange="onTermChange"></SearchBar>
-        <VideoList :videos="videos"></VideoList>   
-        <!-- 右邊的videos => the name of the property we want to share  in the parent-->
+        <div class="row">
+        <VideoDetail :video="selectedVideo"/>
+        <VideoList @videoSelect="onVideoSelect" :videos="videos"></VideoList>   
+        <!-- 右邊的videos => the name of the property we want to share in the parent-->
         <!-- 左邊的videos  => the name of the property wa want to have show up inside the child -->
+        </div>
     </div>
 </template>
 
@@ -11,16 +14,18 @@
 import axios from 'axios';
 import SearchBar from './components/SearchBar';
 import VideoList from './components/VideoList';
+import VideoDetail from './components/VideoDetail';
 const API_KEY ='AIzaSyBjSqpQChtV1o_zU5vKgRPCsXixS1KA1ik' ;
 // 'AIzaSyCx95SsPV4GKc25aVF7Ix_aCcgDPGaZQ7M'
 export default {
     name: 'App',
     components: {
         SearchBar : SearchBar,
-        VideoList
+        VideoList,
+        VideoDetail
     },
     data (){
-        return { videos: [] };
+        return { videos: [], selectedVideo: null };
     },
     methods: {
 
@@ -36,6 +41,9 @@ export default {
             .then(response => {
                 this.videos =  response.data.items;
             });
+        },
+        onVideoSelect(video){
+            this.selectedVideo = video;
         }
     }
 }
